@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>to_do_list</title>
+    </head>
+    <body>
+        <div id="app">
+            <header>to-do list</header>
+            <main>
+                <h1>Bienvenido a tu lista de tareas</h1>
+                <p>Agrega tus tareas pendientes y mantente organizado.</p>
+                <form id = "task-form">
+                    <label for = "input">Nueva tarea:</label>
+                    <input type = "text" id = "input" placeholder="Aqui pon tu tarea">
+                    <button type = "submit" id = "add-task">Agregar tarea</button>
+                </form>
+                <ul id = "tasks"></ul>
+            </main>
+        </div>
+        <script type="module" src="/src/main.js"></script>
+    </body>
+</html>
