@@ -296,6 +296,8 @@ code {
 }
 
 .Task-Element {
+  display: flex;
+  flex-wrap: wrap;
   font-size: auto;
   padding: 10px;
   border: 1px solid var(--border);
@@ -322,4 +324,30 @@ code {
 .task-checkbox {
   margin-right: 1em;
   margin-left: 0px;
+}
+
+.hover-subtask {
+    min-height: 30px;
+    background-color: rgba(255, 255, 255, 0.1); 
+    border: 2px dashed #888; 
+    margin-top: 10px;
+    margin-left: 20px; 
+}
+
+.subtask-list {
+    width: 100%; 
+    padding-left: 2rem; 
+    min-height: 15px; 
+    box-sizing: border-box;
+}
+
+.subtask-list .Task-Element {
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.task-text {
+    margin-left: 0;
 }
