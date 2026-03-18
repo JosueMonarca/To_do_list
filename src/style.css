@@ -294,3 +294,32 @@ code {
     border-right-color: var(--border);
   }
 }
+
+.Task-Element {
+  font-size: auto;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  margin-bottom: 10px;
+  list-style-type: circle;
+  padding-left: 2em;
+  padding-right: 2em;
+  margin-left: 20%;
+  margin-right: 20%;
+  overflow-wrap: break-word;
+}
+
+#tasks{
+  list-style-type: none;
+  padding-left: 0;
+  margin-left: 0;
+}
+
+.task-text {
+  margin-left:auto;
+}
+
+.task-checkbox {
+  margin-right: 1em;
+  margin-left: 0px;
+}
