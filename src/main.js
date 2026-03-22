@@ -5,6 +5,9 @@ import { managerTaskMain } from './components/taskMain';
 const taskManager = TaskManager.getInstance();
 const form = document.getElementById('task-form');
 const input = document.getElementById('input');
+const main = document.getElementById('task-Main');
+const trash = document.getElementById('trash');
+main.appendChild(trash);
 
 taskManager.setTaskMain('task-Main');
 

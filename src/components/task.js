@@ -1,5 +1,3 @@
-import { createTrashElement } from "./trash.js";
-
 export function createTaskElement(task){
     const li = document.createElement('li');
     li.classList.add('Task-Element');
@@ -7,10 +5,6 @@ export function createTaskElement(task){
     li.setAttribute('id',`task-${Date.now()}`);
     li.setAttribute('data-task',task);  
     li.setAttribute('id-father','root');
-
-    const trash = createTrashElement();
-
-    li.appendChild(trash);
     
     const inputk = document.createElement('input');
     inputk.classList.add('task-checkbox');
