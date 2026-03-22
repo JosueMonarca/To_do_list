@@ -2,6 +2,9 @@ export function createTaskElement(task){
     const li = document.createElement('li');
     li.classList.add('Task-Element');
     li.setAttribute('draggable','true');
+    li.setAttribute('id',`task-${Date.now()}`);
+    li.setAttribute('data-task',task);  
+    li.setAttribute('id-father','root');
     
     const inputk = document.createElement('input');
     inputk.classList.add('task-checkbox');
@@ -25,6 +28,14 @@ export function createTaskElement(task){
 
     li.addEventListener('dragend', (e)=>{
         li.classList.remove('dragging');
+    })
+
+    inputk.addEventListener('change', (e)=>{
+        if(inputk.checked && !span.classList.contains('completed')){
+            span.classList.add('completed');
+        }else if(!inputk.checked && span.classList.contains('completed')){
+            span.classList.remove('completed');
+        }
     })
 
     return li;

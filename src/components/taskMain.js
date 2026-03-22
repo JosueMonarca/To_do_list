@@ -1,10 +1,20 @@
-export function managerTaskMain(classOfElement){
-    const elementMain = document.querySelector(`.${classOfElement}`);
+export const managerTaskMain  =  {
 
-    elementMain.addEventListener('dragover', (e)=>{
+    init(managerTask)   {
+        const elementMain = document.getElementById('task-Main');
+        this.setDragAndDrop(elementMain);
+        this.managerTask = managerTask.getInstance();
+    },
+
+    setDragAndDrop(elementMain) {
+        elementMain.addEventListener('dragover', this.eventListenerDragover.bind(this));
+        elementMain.addEventListener('drop', this.eventListenerDrop.bind(this));    
+    },
+
+    eventListenerDragover(e) {
         e.preventDefault();
         const draggingElement = document.querySelector('.dragging');
-        const afterElement = e.target.closest('.Task-Element:not(.dragging)');
+        const afterElement = e.target.closest('.Task-Element');
 
         document.querySelectorAll('.hover-subtask').forEach(el => el.classList.remove('hover-subtask'));
 
@@ -22,23 +32,29 @@ export function managerTaskMain(classOfElement){
             }
             else{
                 const subTaskContainer = afterElement.querySelector('.subtask-list');
-
                 if(subTaskContainer){
                     subTaskContainer.classList.add('hover-subtask');
                 }
             }
         }
         e.stopPropagation();
-    })
+    },
 
-    elementMain.addEventListener('drop',(e)=>{
+    // + eventListenerDrop(): void
+    eventListenerDrop(e) {
         e.preventDefault();
         const draggingElement = document.querySelector('.dragging');
         const targetContainer = document.querySelector('.hover-subtask');
 
         if(draggingElement && targetContainer){
+            // AQUÍ usarás tu TaskManager inyectado para actualizar el estado lógico
+            // Por ejemplo: this.taskManager.setTaskParent(draggingElement.id, parent.id)
+            
             targetContainer.appendChild(draggingElement);
             targetContainer.classList.remove('hover-subtask');
         }
-    })
+        else if(draggingElement && !targetContainer){
+            // Lógica para cuando se suelta en la lista principal
+        }
+    }
 }
