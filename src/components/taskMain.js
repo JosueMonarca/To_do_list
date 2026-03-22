@@ -1,7 +1,7 @@
 export const managerTaskMain  =  {
 
     init(managerTask)   {
-        this.managerTask = managerTask.getInstance();
+        this.managerTask = managerTask;
         const elementMain = managerTask.getTaskMain();
         this.setDragAndDrop(elementMain);
     },
@@ -24,10 +24,10 @@ export const managerTaskMain  =  {
             const threeQuartersOfElement = bounding.top + bounding.height * 3 / 4;
             const clientY = e.clientY;
 
-            if(clientY < fourthOfElement){
+            if(clientY <= fourthOfElement){
                 afterElement.before(draggingElement);
             }
-            else if(clientY > threeQuartersOfElement){
+            else if(clientY >= threeQuartersOfElement){
                 afterElement.after(draggingElement);
             }
             else{
