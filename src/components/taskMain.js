@@ -1,9 +1,9 @@
 export const managerTaskMain  =  {
 
     init(managerTask)   {
-        const elementMain = document.getElementById('task-Main');
-        this.setDragAndDrop(elementMain);
         this.managerTask = managerTask.getInstance();
+        const elementMain = managerTask.getTaskMain();
+        this.setDragAndDrop(elementMain);
     },
 
     setDragAndDrop(elementMain) {

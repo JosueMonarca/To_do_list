@@ -9,7 +9,7 @@ export class TaskManager {
         TaskManager.#instance = this;
 
         this.taskList = [];
-        this.TaskMain = null;
+        this.taskMain = null;
     }
 
     static getInstance(){
@@ -20,13 +20,13 @@ export class TaskManager {
     }
 
     setTaskMain(classOfElement){
-        this.TaskMain = document.querySelector(`.${classOfElement}`);
+        this.taskMain = document.querySelector(`.${classOfElement}`);
     }
 
     setTask(task){
         const taskElement = createTaskElement(task);
+        this.taskMain.appendChild(taskElement);
         this.taskList.push(taskElement);
-        this.TaskMain.appendChild(taskElement);
     }
 
     getTasksByClass(nameClass){
@@ -73,6 +73,6 @@ export class TaskManager {
     }
 
     getTaskMain(){
-        return this.TaskMain;
+        return this.taskMain;
     }
 }
