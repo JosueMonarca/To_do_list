@@ -4,7 +4,7 @@ import { createTaskElement } from '../src/components/task';
 
 test('createTaskElement creates a task element with the correct structure', () => {
     const taskName = 'Test Task';
-    const taskElement = createTaskElement(taskName, 'test-id', false , () => {}); // Asegúrate de pasar los parámetros correctos
+    const taskElement = createTaskElement(taskName, 'test-id', false , () => {}); 
     expect(taskElement.tagName).toBe('LI');
     expect(taskElement.classList.contains('Task-Element')).toBe(true);
     expect(taskElement.getAttribute('draggable')).toBe('true');
@@ -24,10 +24,8 @@ test('createTaskElement creates a task element with the correct structure', () =
 
 test('Debe lanzar un error INMEDIATO si no se le pasa onToggle', () => {
     
-    // Envolvemos la creación en la función flecha
     expect(() => {
         
-        // Intentamos crear la tarea omitiendo el 4to parámetro (onToggle)
         createTaskElement('test-id', 'Test Task', false); 
         
     }).toThrow('onToggle no es una función'); 
