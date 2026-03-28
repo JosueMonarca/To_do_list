@@ -46,14 +46,10 @@ export const managerTaskMain  =  {
         const targetContainer = document.querySelector('.hover-subtask');
 
         if(draggingElement && targetContainer){
-            // AQUÍ usarás tu TaskManager inyectado para actualizar el estado lógico
-            // Por ejemplo: this.taskManager.setTaskParent(draggingElement.id, parent.id)
-            
             targetContainer.appendChild(draggingElement);
             targetContainer.classList.remove('hover-subtask');
         }
         else if(draggingElement && !targetContainer){
-            // Lógica para cuando se suelta en la lista principal
         }
     }
 }

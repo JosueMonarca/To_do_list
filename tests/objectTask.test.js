@@ -31,22 +31,16 @@ test('ObjectTask creates a task element with the correct structure', () => {
 });
 
 test('ObjectTask actualiza su estado interno cuando el DOM dispara un change', () => {
-    // 1. Creamos la tarea (nace con isCompleted: false)
     const taskData = { nametask: 'Test Task', idFather: 'root', isCompleted: false };
     const objectTask = new ObjectTask(taskData);
     
-    // Verificamos el estado inicial en los DATOS
     expect(objectTask.getIsCompleted()).toBe(false);
 
-    // 2. Obtenemos el HTML y el checkbox
     const taskElement = objectTask.getElement();
     const checkbox = taskElement.querySelector('.task-checkbox');
     
-    // 3. Simulamos la interacción del usuario
     checkbox.checked = true;
     checkbox.dispatchEvent(new Event('change'));
 
-    // 4. ¡LA PRUEBA DE FUEGO! 
-    // Verificamos que el click en el HTML viajó hasta la variable privada del objeto
     expect(objectTask.getIsCompleted()).toBe(true);
 });
