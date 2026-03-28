@@ -9,3 +9,44 @@ test('ObjectTask initializes with correct properties', () => {
     expect(objectTask.getIdFather()).toBe('root');
     expect(objectTask.getIsCompleted()).toBe(false);
 });
+
+test('ObjectTask creates a task element with the correct structure', () => {
+    const taskData = { nametask: 'Test Task', idFather: 'root', isCompleted: false };
+    const objectTask = new ObjectTask(taskData);
+    const taskElement = objectTask.getElement();
+    expect(taskElement.tagName).toBe('LI');
+    expect(taskElement.classList.contains('Task-Element')).toBe(true);
+    expect(taskElement.getAttribute('draggable')).toBe('true');
+    const checkbox = taskElement.querySelector('.task-checkbox');
+    expect(checkbox).not.toBeNull();
+    expect(checkbox.getAttribute('type')).toBe('checkbox');
+    const span = taskElement.querySelector('.task-text');
+    expect(span).not.toBeNull();
+    expect(span.textContent).toBe('Test Task');
+    expect(span.classList.contains('task-text')).toBe(true);
+    const subTaskList = taskElement.querySelector('.subtask-list');
+    expect(subTaskList).not.toBeNull();
+    expect(subTaskList.classList.contains('subtask-list')).toBe(true);
+    expect(checkbox.checked).toBe(false);
+});
+
+test('ObjectTask actualiza su estado interno cuando el DOM dispara un change', () => {
+    // 1. Creamos la tarea (nace con isCompleted: false)
+    const taskData = { nametask: 'Test Task', idFather: 'root', isCompleted: false };
+    const objectTask = new ObjectTask(taskData);
+    
+    // Verificamos el estado inicial en los DATOS
+    expect(objectTask.getIsCompleted()).toBe(false);
+
+    // 2. Obtenemos el HTML y el checkbox
+    const taskElement = objectTask.getElement();
+    const checkbox = taskElement.querySelector('.task-checkbox');
+    
+    // 3. Simulamos la interacción del usuario
+    checkbox.checked = true;
+    checkbox.dispatchEvent(new Event('change'));
+
+    // 4. ¡LA PRUEBA DE FUEGO! 
+    // Verificamos que el click en el HTML viajó hasta la variable privada del objeto
+    expect(objectTask.getIsCompleted()).toBe(true);
+});

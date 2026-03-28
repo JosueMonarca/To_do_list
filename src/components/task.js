@@ -1,12 +1,18 @@
-export function createTaskElement(task){
+export function createTaskElement(task,id,isCompleted = false, onToggle){
+
+    if(typeof onToggle !== 'function'){
+        throw new Error('onToggle no es una función');
+    }   
+
     const li = document.createElement('li');
     li.classList.add('Task-Element');
     li.setAttribute('draggable','true');
-    li.setAttribute('id',`task-${Date.now()}`);
+    li.setAttribute('id',id);
     
     const inputk = document.createElement('input');
     inputk.classList.add('task-checkbox');
     inputk.setAttribute('type', 'checkbox');
+    inputk.checked = isCompleted;
     
     const span = document.createElement('span');
     span.textContent = task;
@@ -29,11 +35,11 @@ export function createTaskElement(task){
     })
 
     inputk.addEventListener('change', (e)=>{
-        if(inputk.checked && !span.classList.contains('completed')){
-            span.classList.add('completed');
-        }else if(!inputk.checked && span.classList.contains('completed')){
-            span.classList.remove('completed');
-        }
+        const isChecked = inputk.checked;
+        // 2. Ejecutamos la función que nos pasaron para avisarle al objeto
+        // 1. Actualizamos la vista (HTML)
+        span.classList.toggle('completed', isChecked);
+        onToggle(isChecked); 
     })
 
     return li;

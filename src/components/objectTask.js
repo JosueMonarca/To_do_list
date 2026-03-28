@@ -12,7 +12,7 @@ export class ObjectTask{
         this.#id = crypto.randomUUID();
         this.#idFather = idFather;
         this.#isCompleted = isCompleted;
-        this.#element = this.createElement(this.#nametask);
+        this.#element = this.createElement(this.#nametask, this.#id, this.#isCompleted, this.setIsCompleted.bind(this));
     }
 
     getNameTask(){return this.#nametask;}
@@ -27,14 +27,18 @@ export class ObjectTask{
 
     setIdFather(idFather){this.#idFather = idFather;}
 
-    setIsCompleted(isCompleted){ this.#isCompleted = isCompleted;}
+    setIsCompleted(isCompleted){
+        this.#isCompleted = isCompleted;
+        const checkbox = this.#element.querySelector('.task-checkbox');
+        checkbox.checked = isCompleted;
+    }
 
     setNameTask(nametask){
         this.#nametask = nametask;
         this.#element.querySelector('.task-text').textContent = nametask;
     }
 
-    createElement(taskName){
-        return createTaskElement(taskName);
+    createElement(taskName,id,isCompleted,onToggle){
+        return createTaskElement(taskName,id,isCompleted,onToggle);
     }
 }

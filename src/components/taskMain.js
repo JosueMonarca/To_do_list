@@ -16,7 +16,7 @@ export const managerTaskMain  =  {
         const draggingElement = document.querySelector('.dragging');
         const afterElement = e.target.closest('.Task-Element');
 
-        this.managerTask.getElementByClass('hover-subtask').forEach(el => el.classList.remove('hover-subtask'));
+        document.querySelectorAll('.hover-subtask').forEach(el => el.classList.remove('hover-subtask'));
 
         if(afterElement && afterElement != draggingElement && !draggingElement.contains(afterElement)){
             const bounding = afterElement.getBoundingClientRect();
