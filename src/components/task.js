@@ -26,13 +26,15 @@ export function createTaskElement(task,id,isCompleted = false, onToggle){
     li.appendChild(subTaskList);
     
     li.addEventListener('dragstart', (e)=>{
-        e.dataTransfer.setData('text/plain',task);
+        e.stopPropagation(); 
+        e.dataTransfer.setData('text/plain', task);
         li.classList.add('dragging');
-    })
+    });
 
     li.addEventListener('dragend', (e)=>{
+        e.stopPropagation(); 
         li.classList.remove('dragging');
-    })
+    });
 
     inputk.addEventListener('change', (e)=>{
         const isChecked = inputk.checked;
