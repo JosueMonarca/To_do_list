@@ -129,9 +129,64 @@ p {
     word-break: break-all; /* Obliga a la palabra gigante a romperse y bajar a la siguiente línea */
 }
 
+/* Contenedor del checkbox para alinearlo con el texto */
 .task-checkbox {
+  appearance: none; /* Oculta el checkbox original del navegador */
+  -webkit-appearance: none;
+  
+  width: 20px;
+  height: 20px;
+  border: 2px solid #3498db; /* Color azul moderno */
+  border-radius: 6px; /* Bordes redondeados suaves */
+  background-color: #fff;
+  cursor: pointer;
+  display: inline-grid;
+  place-content: center;
+  position: relative;
+  transition: all 0.2s ease-in-out;
+  
+  /* Tus márgenes originales */
   margin-right: 1em;
   margin-left: 0px;
+  
+  /* Alineación vertical con el texto de la tarea */
+  vertical-align: middle;
+}
+
+/* Efecto Hover: Brillo suave al pasar el ratón */
+.task-checkbox:hover {
+  background-color: #ebf5fb;
+  transform: scale(1.05);
+}
+
+/* Estado Marcado (Checked) */
+.task-checkbox:checked {
+  background-color: #3498db;
+  border-color: #3498db;
+}
+
+/* El "Check" (la palomita blanca) */
+.task-checkbox::before {
+  content: "";
+  width: 10px;
+  height: 5px;
+  border-left: 2px solid white;
+  border-bottom: 2px solid white;
+  transform: rotate(-45deg) scale(0); /* Invisible por defecto */
+  transition: transform 0.1s cubic-bezier(0.12, 0.4, 0.29, 1.46);
+  margin-bottom: 2px; /* Ajuste fino de posición */
+}
+
+/* Mostrar el "Check" cuando está seleccionado */
+.task-checkbox:checked::before {
+  transform: rotate(-45deg) scale(1);
+}
+
+/* Estilo extra para el texto cuando la tarea está completada */
+.task-text.completed {
+  color: #bdc3c7;
+  text-decoration: line-through;
+  transition: color 0.1s ease;
 }
 
 .hover-subtask {
