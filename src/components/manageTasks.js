@@ -23,13 +23,43 @@ export class TaskManager {
         this.taskMain = document.querySelector(`.${classOfElement}`);
     }
 
-    setTask(task){
-        const objectTask = new ObjectTask({nametask: task});
+    setTask(task, idFather = "root"){
+        const objectTask = new ObjectTask({
+            nametask: task,
+            idFather: idFather,
+            onStatusChange: (taskId, isChecked) => {
+                // Solo propagamos la cascada si se marcó como completada (true)
+                if (isChecked) {
+                    this.completeChildrenRecursively(taskId);
+                }
+            }});
         this.taskMain.appendChild(objectTask.getElement());
-        this.taskList.push(objectTask);// solo guardamos el objeto, no el elemento del DOM
+        this.taskList.push(objectTask);
     }
 
-    getTasksByClass(nameClass){
+    setClassOfTask(taskId, className){
+        const task = this.getTaskById(taskId);
+        if(task){
+            task.getElement().classList.add(className);
+        }
+    }
+
+
+    completeChildrenRecursively(taskId) {
+        const children = this.getChildrenById(taskId);
+        
+        children.forEach(child => {
+            // Solo lo actualizamos si no estaba completado ya
+            if (!child.getIsCompleted()) {
+                child.setIsCompleted(true); // Esto actualiza sus datos y su HTML automáticamente
+                
+                // ¡La magia de la recursividad! Llama a la misma función para los hijos de este hijo
+                this.completeChildrenRecursively(child.getId()); 
+            }
+        });
+    }
+
+    getTasksByClassName(nameClass){
         return this.taskList.filter(task => {
             const containsClass = task.getElement().classList.contains(nameClass);
 
@@ -79,4 +109,10 @@ export class TaskManager {
     getTaskMain(){
         return this.taskMain;
     }
+
+    deleteAllTasks(){
+        this.taskList.forEach(task => task.getElement().remove());
+        this.taskList = [];
+    }
+
 }
