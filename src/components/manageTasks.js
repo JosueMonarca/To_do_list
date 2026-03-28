@@ -1,4 +1,4 @@
-import {createTaskElement} from './task.js';
+import {ObjectTask} from './objectTask.js';
 
 export class TaskManager {
     static #instance;
@@ -24,16 +24,16 @@ export class TaskManager {
     }
 
     setTask(task){
-        const taskElement = createTaskElement(task);
-        this.taskMain.appendChild(taskElement);
-        this.taskList.push(taskElement);
+        const objectTask = new ObjectTask({nametask: task});
+        this.taskMain.appendChild(objectTask.getElement());
+        this.taskList.push(objectTask);// solo guardamos el objeto, no el elemento del DOM
     }
 
     getTasksByClass(nameClass){
         return this.taskList.filter(task => {
-            const containsClass = task.classList.contains(nameClass);
+            const containsClass = task.getElement().classList.contains(nameClass);
 
-            const hasChildrenWithClass = Array.from(task.children)
+            const hasChildrenWithClass = Array.from(task.getElement().children)
             .some(child => child.classList.contains(nameClass));
 
             return containsClass || hasChildrenWithClass;
@@ -41,12 +41,16 @@ export class TaskManager {
         });
     }
 
+    getElementByClass(nameClass){
+        return this.taskList.find(task => task.getElement().classList.contains(nameClass));
+    }
+
     getTaskById(nameId){
-        return this.taskList.find(task => task.id === nameId);
+        return this.taskList.find(task => task.getId() === nameId);
     }
 
     getChildrenById(idFather){
-        return this.taskList.filter(task => task.getAttribute('id-father') === idFather);
+        return this.taskList.filter(task => task.getIdFather() === idFather);
     }
 
     setTaskParent(taskId, parentId){
@@ -54,10 +58,10 @@ export class TaskManager {
         const taskParent = this.getTaskById(parentId);
 
         if(taskChild && taskParent){
-            taskChild.setAttribute('id-father', parentId);
-            const subTaskContainer = taskParent.querySelector('.subtask-list');
+            taskChild.setIdFather(parentId);
+            const subTaskContainer = taskParent.getElement().querySelector('.subtask-list');
             if(subTaskContainer){
-                subTaskContainer.appendChild(taskChild);
+                subTaskContainer.appendChild(taskChild.getElement());
             }
         }
     }
@@ -66,9 +70,9 @@ export class TaskManager {
         const taskToDelete = this.getTaskById(taskId);
         if(taskToDelete){
             const children = this.getChildrenById(taskId);
-            children.forEach(child => this.deleteTask(child.id));
-            this.taskList = this.taskList.filter(task => task.id !== taskId);
-            taskToDelete.remove();
+            children.forEach(child => this.deleteTask(child.getId()));
+            this.taskList = this.taskList.filter(task => task.getId() !== taskId);
+            taskToDelete.getElement().remove();
         }
     }
 

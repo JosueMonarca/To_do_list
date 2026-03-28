@@ -3,8 +3,6 @@ export function createTaskElement(task){
     li.classList.add('Task-Element');
     li.setAttribute('draggable','true');
     li.setAttribute('id',`task-${Date.now()}`);
-    li.setAttribute('data-task',task);  
-    li.setAttribute('id-father','root');
     
     const inputk = document.createElement('input');
     inputk.classList.add('task-checkbox');
