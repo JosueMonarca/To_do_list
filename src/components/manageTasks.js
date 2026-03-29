@@ -24,16 +24,27 @@ export class TaskManager {
     }
 
     setTask(task, idFather = "root"){
+        const self = this;
         const objectTask = new ObjectTask({
             nametask: task,
             idFather: idFather,
             onStatusChange: (taskId, isChecked) => {
                 // Solo propagamos la cascada si se marcó como completada (true)
                 if (isChecked) {
-                    this.completeChildrenRecursively(taskId);
+                    self.completeChildrenRecursively(taskId);
                 }
             }});
-        this.taskMain.appendChild(objectTask.getElement());
+        if(idFather === "root"){
+            this.taskMain.appendChild(objectTask.getElement());
+        } else {
+            const parentTask = this.getTaskById(idFather);
+            if(parentTask){
+                const subTaskContainer = parentTask.getElement().querySelector('.subtask-list');
+                if(subTaskContainer){
+                    subTaskContainer.appendChild(objectTask.getElement());
+                }
+            }
+        }
         this.taskList.push(objectTask);
     }
 
@@ -46,14 +57,20 @@ export class TaskManager {
 
 
     completeChildrenRecursively(taskId) {
+        const currentTask = this.getTaskById(taskId);
+        if (currentTask && !currentTask.getIsCompleted()) {
+            currentTask.setIsCompleted(true); 
+            const span = currentTask.getElement().querySelector('.task-text')
+            if(span){
+                span.classList.add('completed');
+            }
+        }
         const children = this.getChildrenById(taskId);
         
         children.forEach(child => {
             // Solo lo actualizamos si no estaba completado ya
             if (!child.getIsCompleted()) {
-                child.setIsCompleted(true); // Esto actualiza sus datos y su HTML automáticamente
-                
-                // ¡La magia de la recursividad! Llama a la misma función para los hijos de este hijo
+                child.setIsCompleted(true, true); // true para saltar la notificación y evitar loops
                 this.completeChildrenRecursively(child.getId()); 
             }
         });

@@ -117,4 +117,3 @@ test('ManageTasks completeChildrenRecursively updates all children', () => {
     expect(childTask1.getIsCompleted()).toBe(true);
     expect(childTask2.getIsCompleted()).toBe(true);
 });
-

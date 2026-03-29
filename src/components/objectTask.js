@@ -8,11 +8,12 @@ export class ObjectTask{
     #element;
     #onStatusChange;
 
-    constructor({nametask, idFather = "root",isCompleted = false, onStatusChange=()=>{}}){
+    constructor({nametask, idFather = "root", isCompleted = false, onStatusChange=()=>{}}){
         this.#nametask = nametask;
         this.#id = crypto.randomUUID();
         this.#idFather = idFather;
         this.#isCompleted = isCompleted;
+        this.#onStatusChange = onStatusChange;
         this.#element = this.createElement(this.#nametask, this.#id, this.#isCompleted, this.setIsCompleted.bind(this));
     }
 
@@ -27,6 +28,8 @@ export class ObjectTask{
     getElement(){return this.#element;}
 
     getClassList(){return this.#element.classList;}
+
+    addClass(clasName){this.#element.classList.add(clasName);}
 
     setIdFather(idFather){this.#idFather = idFather;}
 
@@ -52,4 +55,5 @@ export class ObjectTask{
     createElement(taskName,id,isCompleted,onToggle){
         return createTaskElement(taskName,id,isCompleted,onToggle);
     }
+
 }

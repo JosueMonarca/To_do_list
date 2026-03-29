@@ -1,7 +1,7 @@
 export const managerTaskMain  =  {
 
     init(managerTask)   {
-        this.managerTask = managerTask.getInstance();
+        this.managerTask = managerTask;
         const elementMain = managerTask.getTaskMain();
         this.setDragAndDrop(elementMain);
     },
