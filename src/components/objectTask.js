@@ -6,12 +6,14 @@ export class ObjectTask{
     #idFather;
     #isCompleted;
     #element;
+    #onStatusChange;
 
-    constructor({nametask, idFather = "root",isCompleted = false}){
+    constructor({nametask, idFather = "root", isCompleted = false, onStatusChange=()=>{}}){
         this.#nametask = nametask;
         this.#id = crypto.randomUUID();
         this.#idFather = idFather;
         this.#isCompleted = isCompleted;
+        this.#onStatusChange = onStatusChange;
         this.#element = this.createElement(this.#nametask, this.#id, this.#isCompleted, this.setIsCompleted.bind(this));
     }
 
@@ -25,12 +27,24 @@ export class ObjectTask{
 
     getElement(){return this.#element;}
 
+    getClassList(){return this.#element.classList;}
+
+    addClass(clasName){this.#element.classList.add(clasName);}
+
     setIdFather(idFather){this.#idFather = idFather;}
 
-    setIsCompleted(isCompleted){
+    setIsCompleted(isCompleted, skipNotification = false) {
         this.#isCompleted = isCompleted;
+    
         const checkbox = this.#element.querySelector('.task-checkbox');
-        checkbox.checked = isCompleted;
+        if (checkbox) checkbox.checked = isCompleted;
+    
+        const span = this.#element.querySelector('.task-text');
+        if (span) span.classList.toggle('completed', isCompleted);
+    
+        if (!skipNotification && this.#onStatusChange) {
+            this.#onStatusChange(this.#id, isCompleted);
+        }
     }
 
     setNameTask(nametask){
@@ -41,4 +55,5 @@ export class ObjectTask{
     createElement(taskName,id,isCompleted,onToggle){
         return createTaskElement(taskName,id,isCompleted,onToggle);
     }
+
 }

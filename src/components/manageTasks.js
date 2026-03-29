@@ -23,13 +23,60 @@ export class TaskManager {
         this.taskMain = document.querySelector(`.${classOfElement}`);
     }
 
-    setTask(task){
-        const objectTask = new ObjectTask({nametask: task});
-        this.taskMain.appendChild(objectTask.getElement());
-        this.taskList.push(objectTask);// solo guardamos el objeto, no el elemento del DOM
+    setTask(task, idFather = "root"){
+        const self = this;
+        const objectTask = new ObjectTask({
+            nametask: task,
+            idFather: idFather,
+            onStatusChange: (taskId, isChecked) => {
+                // Solo propagamos la cascada si se marcó como completada (true)
+                if (isChecked) {
+                    self.completeChildrenRecursively(taskId);
+                }
+            }});
+        if(idFather === "root"){
+            this.taskMain.appendChild(objectTask.getElement());
+        } else {
+            const parentTask = this.getTaskById(idFather);
+            if(parentTask){
+                const subTaskContainer = parentTask.getElement().querySelector('.subtask-list');
+                if(subTaskContainer){
+                    subTaskContainer.appendChild(objectTask.getElement());
+                }
+            }
+        }
+        this.taskList.push(objectTask);
     }
 
-    getTasksByClass(nameClass){
+    setClassOfTask(taskId, className){
+        const task = this.getTaskById(taskId);
+        if(task){
+            task.getElement().classList.add(className);
+        }
+    }
+
+
+    completeChildrenRecursively(taskId) {
+        const currentTask = this.getTaskById(taskId);
+        if (currentTask && !currentTask.getIsCompleted()) {
+            currentTask.setIsCompleted(true); 
+            const span = currentTask.getElement().querySelector('.task-text')
+            if(span){
+                span.classList.add('completed');
+            }
+        }
+        const children = this.getChildrenById(taskId);
+        
+        children.forEach(child => {
+            // Solo lo actualizamos si no estaba completado ya
+            if (!child.getIsCompleted()) {
+                child.setIsCompleted(true, true); // true para saltar la notificación y evitar loops
+                this.completeChildrenRecursively(child.getId()); 
+            }
+        });
+    }
+
+    getTasksByClassName(nameClass){
         return this.taskList.filter(task => {
             const containsClass = task.getElement().classList.contains(nameClass);
 
@@ -79,4 +126,10 @@ export class TaskManager {
     getTaskMain(){
         return this.taskMain;
     }
+
+    deleteAllTasks(){
+        this.taskList.forEach(task => task.getElement().remove());
+        this.taskList = [];
+    }
+
 }
