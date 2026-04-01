@@ -5,6 +5,9 @@ export class ObjectTrash {
     #onEliminate;
     constructor(onEliminate) {
         this.#element = createTrashElement();
+        if(typeof onEliminate !== 'function') {
+            throw new Error('El parámetro onEliminate debe ser una función');
+        }
         this.#onEliminate = onEliminate;
 
         this.#element.addEventListener('dragover', this.eventListenerDragover.bind(this));
