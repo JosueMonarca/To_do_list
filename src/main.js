@@ -7,10 +7,7 @@ const taskManager = TaskManager.getInstance();
 const form = document.getElementById('task-form');
 const input = document.getElementById('input');
 taskManager.setTaskMain('task-Main');
-const objectTrash = new ObjectTrash(() => {
-    console.log('Tarea eliminada');
-    // Aquí puedes agregar la lógica para eliminar la tarea correspondiente
-});
+const objectTrash = new ObjectTrash(taskManager.deleteTaskSelected.bind(taskManager));
 const trashContainer = document.getElementById('trash-container');
 trashContainer.appendChild(objectTrash.getElement());
 

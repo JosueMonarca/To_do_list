@@ -132,4 +132,13 @@ export class TaskManager {
         this.taskList = [];
     }
 
+    deleteTaskSelected(){
+        const selectedTask = this.taskList.find(task => {
+            return task.getElement().classList.contains('dragging');
+        });
+        if(selectedTask){
+            const taskId = selectedTask.getId();
+            this.deleteTask(taskId);
+        }
+    }
 }
