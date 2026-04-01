@@ -11,5 +11,17 @@ export class ObjectTrash {
         this.#element.addEventListener('drop', this.eventListenerDrop.bind(this));
     }
 
+    eventListenerDragover(e){
+        e.preventDefault();
+        console.log('si jalo')
+    }
 
+    eventListenerDrop(e){
+        e.preventDefault();
+        if(typeof this.#onEliminate === 'function'){
+            this.#onEliminate();
+        }
+    }
+
+    getElement(){return this.#element;}
 }

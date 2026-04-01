@@ -56,4 +56,5 @@ export class ObjectTask{
         return createTaskElement(taskName,id,isCompleted,onToggle);
     }
 
+    getElement(){return this.#element;}
 }
