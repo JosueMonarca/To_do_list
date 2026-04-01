@@ -124,65 +124,54 @@ p {
 
 .task-text {
     margin-left: 0;
-    flex: 1; /* Le dice que ocupe el espacio disponible al lado del checkbox */
-    min-width: 0; /* EL TRUCO DE MAGIA: Le permite a Flexbox encogerse más allá del tamaño de la palabra */
-    word-break: break-all; /* Obliga a la palabra gigante a romperse y bajar a la siguiente línea */
+    flex: 1; 
+    min-width: 0;
+    word-break: break-all; 
 }
 
-/* Contenedor del checkbox para alinearlo con el texto */
 .task-checkbox {
-  appearance: none; /* Oculta el checkbox original del navegador */
+  appearance: none; 
   -webkit-appearance: none;
   
   width: 20px;
   height: 20px;
-  border: 2px solid #3498db; /* Color azul moderno */
-  border-radius: 6px; /* Bordes redondeados suaves */
+  border: 2px solid #3498db; 
+  border-radius: 6px; 
   background-color: #fff;
   cursor: pointer;
   display: inline-grid;
   place-content: center;
   position: relative;
   transition: all 0.2s ease-in-out;
-  
-  /* Tus márgenes originales */
   margin-right: 1em;
   margin-left: 0px;
-  
-  /* Alineación vertical con el texto de la tarea */
   vertical-align: middle;
 }
 
-/* Efecto Hover: Brillo suave al pasar el ratón */
 .task-checkbox:hover {
   background-color: #ebf5fb;
   transform: scale(1.05);
 }
 
-/* Estado Marcado (Checked) */
 .task-checkbox:checked {
   background-color: #3498db;
   border-color: #3498db;
 }
 
-/* El "Check" (la palomita blanca) */
 .task-checkbox::before {
   content: "";
   width: 10px;
   height: 5px;
   border-left: 2px solid white;
   border-bottom: 2px solid white;
-  transform: rotate(-45deg) scale(0); /* Invisible por defecto */
+  transform: rotate(-45deg) scale(0); 
   transition: transform 0.1s cubic-bezier(0.12, 0.4, 0.29, 1.46);
-  margin-bottom: 2px; /* Ajuste fino de posición */
+  margin-bottom: 2px; 
 }
-
-/* Mostrar el "Check" cuando está seleccionado */
 .task-checkbox:checked::before {
   transform: rotate(-45deg) scale(1);
 }
 
-/* Estilo extra para el texto cuando la tarea está completada */
 .task-text.completed {
   color: #bdc3c7;
   text-decoration: line-through;
@@ -224,4 +213,80 @@ header {
   justify-content: center;
   align-items: center;
   background-color: rgba(94, 43, 133, 0.188);
+}
+
+.trash-button {
+  background: transparent;
+  border: 1px solid ; 
+  font-size: 1.2rem;
+  cursor: pointer;
+  height: 2rem;
+  width: 2rem;
+  border-radius: 6px;
+  
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  transition: all 0.2s ease-in-out;
+  color: #9ca3af; 
+  margin-left: 90%;
+  margin-top:  0.5rem;
+}
+
+.trash-button:hover {
+  background-color: #490f0f;
+  color: #ef4444;
+  border-color: #fca5a5;
+  transform: scale(1.1); 
+}
+
+.trash-button:active {
+  transform: scale(0.5); 
+}
+
+.trash-icon {
+  position: relative;
+  width: 12px;
+  height: 14px;
+  border: 2px solid currentColor; 
+  border-top: none; 
+  border-radius: 0 0 4px 4px;
+  margin-top: 4px; 
+  transition: all 0.2s ease-in-out;
+}
+
+.trash-icon::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: -4px; 
+  width: 16px;
+  height: 2px;
+  background-color: currentColor;
+  border-radius: 2px;
+}
+
+.trash-icon::after {
+  content: "";
+  position: absolute;
+  top: -7px;
+  left: 2px;
+  width: 4px;
+  height: 2px;
+  border: 2px solid currentColor;
+  border-bottom: none;
+  border-radius: 2px 2px 0 0;
+}
+
+.trash-button:hover .trash-icon::before,
+.trash-button:hover .trash-icon::after{
+  transform: translateY(-2px);
+  transition: transform 0.2s ease;
+}
+
+#trash-container{
+  display: flex;
+  padding: 0.5rem 1rem; 
+  width: 100%;
 }
