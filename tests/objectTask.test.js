@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import {expect, test } from 'vitest';
-import { ObjectTask } from '../src/components/objectTask';
+import { ObjectTask } from '../src/model/objectTask';
 
 test('ObjectTask initializes with correct properties', () => {
     const taskData = { nametask: 'Test Task', idFather: 'root', isCompleted: false };

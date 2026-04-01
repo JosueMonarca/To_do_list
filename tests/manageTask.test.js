@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { beforeEach, expect, test } from 'vitest';
-import { TaskManager } from '../src/components/manageTasks';
+import { TaskManager } from '../src/model/manageTasks';
 
 beforeEach(() => {
     document.body.innerHTML = '<ul class="lista-tareas"></ul>';

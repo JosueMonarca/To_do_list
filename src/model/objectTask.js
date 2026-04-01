@@ -1,4 +1,4 @@
-import {createTaskElement} from "./task.js";
+import {createTaskElement} from "../view/task.js";
 
 export class ObjectTask{
     #nametask;

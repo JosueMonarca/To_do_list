@@ -9,18 +9,25 @@ export class ObjectTrash {
 
         this.#element.addEventListener('dragover', this.eventListenerDragover.bind(this));
         this.#element.addEventListener('drop', this.eventListenerDrop.bind(this));
+        this.#element.addEventListener('dragleave', this.eventListenerDragleave.bind(this));
     }
 
     eventListenerDragover(e){
         e.preventDefault();
-        console.log('si jalo')
+        this.#element.classList.add('drag-over');
     }
 
     eventListenerDrop(e){
         e.preventDefault();
+        this.#element.classList.remove('drag-over');
         if(typeof this.#onEliminate === 'function'){
             this.#onEliminate();
         }
+    }
+
+    eventListenerDragleave(e){
+        e.preventDefault();
+        this.#element.classList.remove('drag-over');
     }
 
     getElement(){return this.#element;}

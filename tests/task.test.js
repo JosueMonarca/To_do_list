@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import {expect, test } from 'vitest';
-import { createTaskElement } from '../src/components/task'; 
+import { createTaskElement } from '../src/view/task'; 
 
 test('createTaskElement creates a task element with the correct structure', () => {
     const taskName = 'Test Task';

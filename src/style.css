@@ -214,7 +214,6 @@ header {
   align-items: center;
   background-color: rgba(94, 43, 133, 0.188);
 }
-
 .trash-button {
   background: transparent;
   border: 1px solid ; 
@@ -234,11 +233,10 @@ header {
   margin-top:  0.5rem;
 }
 
+/* 1. Ahora el HOVER normal tiene el estilo sutil */
 .trash-button:hover {
-  background-color: #490f0f;
-  color: #ef4444;
-  border-color: #fca5a5;
-  transform: scale(1.1); 
+  background-color: rgba(255, 0, 0, 0.2); 
+  border-color: #ef4444; 
 }
 
 .trash-button:active {
@@ -279,8 +277,17 @@ header {
   border-radius: 2px 2px 0 0;
 }
 
-.trash-button:hover .trash-icon::before,
-.trash-button:hover .trash-icon::after{
+/* 2. Ahora DRAG-OVER tiene la animación principal (crece y cambia de color) */
+.trash-button.drag-over {
+  background-color: #490f0f;
+  color: #ef4444;
+  border-color: #fca5a5;
+  transform: scale(1.1); 
+}
+
+/* 3. El DRAG-OVER es el que ahora dispara la animación de abrir la tapa */
+.trash-button.drag-over .trash-icon::before,
+.trash-button.drag-over .trash-icon::after {
   transform: translateY(-2px);
   transition: transform 0.2s ease;
 }
