@@ -61,11 +61,9 @@ export const managerTaskMain  =  {
                     const parentTaskElement = parentSubtaskList.closest('.Task-Element');
                     if(parentTaskElement){
                         objectDragging.setIdFather(parentTaskElement.id);
-                        console.log(`Sincronizado: "${objectDragging.getNameTask()}" es hijo de la tarea con ID ${parentTaskElement.id}`);
                     }
                 } else {
                     objectDragging.setIdFather('root');
-                    console.log(`Sincronizado: "${objectDragging.getNameTask()}" regresó a la raíz (root)`);
                 }
             }
         }

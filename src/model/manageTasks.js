@@ -1,4 +1,5 @@
 import {ObjectTask} from './objectTask.js';
+import { PersistenceManager } from './persistence.js';  
 
 export class TaskManager {
     static #instance;
@@ -43,6 +44,7 @@ export class TaskManager {
             }
         }
         this.taskList.push(objectTask);
+        this.saveTasksToStorage();
     }
 
     setClassOfTask(taskId, className){
@@ -55,7 +57,7 @@ export class TaskManager {
 
     completeChildrenRecursively(taskId, isChecked = true) {
         const children = this.getChildrenById(taskId);
-        console.log('Hijos encontrados:', children.map(child => child.getId()), 'para el taskId:', this.getTaskById(taskId).getNameTask());
+        //console.log('Hijos encontrados:', children.map(child => child.getId()), 'para el taskId:', this.getTaskById(taskId).getNameTask());
         children.forEach(child => {
             child.setIsCompleted(isChecked);
             this.completeChildrenRecursively(child.getId(), isChecked);
@@ -72,6 +74,10 @@ export class TaskManager {
             return containsClass || hasChildrenWithClass;
             
         });
+    }
+
+    getTaskList(){
+        return this.taskList;
     }
 
     getElementByClass(nameClass){
@@ -95,6 +101,7 @@ export class TaskManager {
             const subTaskContainer = taskParent.getElement().querySelector('.subtask-list');
             if(subTaskContainer){
                 subTaskContainer.appendChild(taskChild.getElement());
+                this.saveTasksToStorage();    
             }
         }
     }
@@ -106,6 +113,7 @@ export class TaskManager {
             children.forEach(child => this.deleteTask(child.getId()));
             this.taskList = this.taskList.filter(task => task.getId() !== taskId);
             taskToDelete.getElement().remove();
+            this.saveTasksToStorage();
         }
     }
 
@@ -126,5 +134,45 @@ export class TaskManager {
             const taskId = selectedTask.getId();
             this.deleteTask(taskId);
         }
+    }
+
+    restoreTask(taskData) {
+        const self = this;
+        const objectTask = new ObjectTask({
+            nametask: taskData.nametask,
+            id: taskData.id,
+            idFather: taskData.idFather,
+            isCompleted: taskData.isCompleted,
+            onStatusChange: (taskId, isChecked) => {
+                self.completeChildrenRecursively(taskId, isChecked);
+                self.saveTasksToStorage(); // Guardamos si cambia el estado
+            }
+        });
+
+        if(taskData.idFather === "root"){
+            this.taskMain.appendChild(objectTask.getElement());
+        } else {
+            const parentTask = this.getTaskById(taskData.idFather);
+            if(parentTask){
+                const subTaskContainer = parentTask.getElement().querySelector('.subtask-list');
+                if(subTaskContainer) subTaskContainer.appendChild(objectTask.getElement());
+            }
+        }
+        this.taskList.push(objectTask);
+    }
+
+    saveTasksToStorage(){
+        // ESTA ES LA MAGIA QUE TE FALTÓ: Extraer los datos a un objeto simple
+        const tasksData = this.taskList.map(task => {
+            return {
+                nametask: task.getNameTask(),
+                id: task.getId(),
+                idFather: task.getIdFather(),
+                isCompleted: task.getIsCompleted()
+            };
+        });
+        
+        // Ahora sí, guardamos el texto traducido, no el objeto con propiedades ocultas
+        PersistenceManager.saveTasks(tasksData);
     }
 }
