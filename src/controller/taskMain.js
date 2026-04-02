@@ -39,7 +39,8 @@ export const managerTaskMain  =  {
         }
         e.stopPropagation();
     },
-
+// solo dios y yo sabemos lo que hace esta función, y yo tengo muy mala memoria, 
+// así que no me pregunten por qué hice esto, pero funciona y es lo que importa 
     eventListenerDrop(e) {
         e.preventDefault();
         const draggingElement = document.querySelector('.dragging');
@@ -49,7 +50,24 @@ export const managerTaskMain  =  {
             targetContainer.appendChild(draggingElement);
             targetContainer.classList.remove('hover-subtask');
         }
-        else if(draggingElement && !targetContainer){
+
+        if(draggingElement){
+            const objectDragging = this.managerTask.getTaskById(draggingElement.id);
+            
+            if(objectDragging){
+                const parentSubtaskList = draggingElement.closest('.subtask-list');
+                
+                if(parentSubtaskList){
+                    const parentTaskElement = parentSubtaskList.closest('.Task-Element');
+                    if(parentTaskElement){
+                        objectDragging.setIdFather(parentTaskElement.id);
+                        console.log(`Sincronizado: "${objectDragging.getNameTask()}" es hijo de la tarea con ID ${parentTaskElement.id}`);
+                    }
+                } else {
+                    objectDragging.setIdFather('root');
+                    console.log(`Sincronizado: "${objectDragging.getNameTask()}" regresó a la raíz (root)`);
+                }
+            }
         }
     }
 }

@@ -29,10 +29,7 @@ export class TaskManager {
             nametask: task,
             idFather: idFather,
             onStatusChange: (taskId, isChecked) => {
-                // Solo propagamos la cascada si se marcó como completada (true)
-                if (isChecked) {
-                    self.completeChildrenRecursively(taskId);
-                }
+                self.completeChildrenRecursively(taskId, isChecked);
             }});
         if(idFather === "root"){
             this.taskMain.appendChild(objectTask.getElement());
@@ -56,23 +53,12 @@ export class TaskManager {
     }
 
 
-    completeChildrenRecursively(taskId) {
-        const currentTask = this.getTaskById(taskId);
-        if (currentTask && !currentTask.getIsCompleted()) {
-            currentTask.setIsCompleted(true); 
-            const span = currentTask.getElement().querySelector('.task-text')
-            if(span){
-                span.classList.add('completed');
-            }
-        }
+    completeChildrenRecursively(taskId, isChecked = true) {
         const children = this.getChildrenById(taskId);
-        
+        console.log('Hijos encontrados:', children.map(child => child.getId()), 'para el taskId:', this.getTaskById(taskId).getNameTask());
         children.forEach(child => {
-            // Solo lo actualizamos si no estaba completado ya
-            if (!child.getIsCompleted()) {
-                child.setIsCompleted(true, true); // true para saltar la notificación y evitar loops
-                this.completeChildrenRecursively(child.getId()); 
-            }
+            child.setIsCompleted(isChecked);
+            this.completeChildrenRecursively(child.getId(), isChecked);
         });
     }
 

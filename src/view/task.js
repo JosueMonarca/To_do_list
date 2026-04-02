@@ -37,11 +37,7 @@ export function createTaskElement(task,id,isCompleted = false, onToggle){
     });
 
     inputk.addEventListener('change', (e)=>{
-        const isChecked = inputk.checked;
-        // 2. Ejecutamos la función que nos pasaron para avisarle al objeto
-        // 1. Actualizamos la vista (HTML)
-        span.classList.toggle('completed', isChecked);
-        onToggle(isChecked); 
+        onToggle(inputk.checked); 
     })
 
     return li;

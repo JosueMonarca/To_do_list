@@ -8,7 +8,7 @@ export class ObjectTask{
     #element;
     #onStatusChange;
 
-    constructor({nametask, idFather = "root", isCompleted = false, onStatusChange=()=>{}}){
+    constructor({nametask, idFather = "root", isCompleted = false, onStatusChange}){
         this.#nametask = nametask;
         this.#id = crypto.randomUUID();
         this.#idFather = idFather;
@@ -33,16 +33,16 @@ export class ObjectTask{
 
     setIdFather(idFather){this.#idFather = idFather;}
 
-    setIsCompleted(isCompleted, skipNotification = false) {
+    setIsCompleted(isCompleted) {
         this.#isCompleted = isCompleted;
-    
-        const checkbox = this.#element.querySelector('.task-checkbox');
-        if (checkbox) checkbox.checked = isCompleted;
-    
         const span = this.#element.querySelector('.task-text');
-        if (span) span.classList.toggle('completed', isCompleted);
+        span.classList.toggle('completed', isCompleted);
+        const checkbox = this.#element.querySelector('.task-checkbox');
+        checkbox.checked = isCompleted;
     
-        if (!skipNotification && this.#onStatusChange) {
+        if(!isCompleted)return; // Solo propagamos la cascada si se marcó como completada (true)
+
+        if (typeof this.#onStatusChange === 'function') {
             this.#onStatusChange(this.#id, isCompleted);
         }
     }
