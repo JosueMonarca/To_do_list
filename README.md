@@ -18,7 +18,13 @@ Este proyecto permite agregar tareas desde un formulario y mostrarlas en una lis
 - `index.html` - Página principal de la aplicación.
 - `src/main.js` - Entrada principal del módulo JavaScript.
 - `src/style.css` - Estilos globales.
-- `src/components/` - Lógica del manejo de tareas y componentes.
+- `src/controller/taskMain.js` - Controlador principal de tareas.
+- `src/model/manageTasks.js` - Lógica para gestionar tareas.
+- `src/model/objectTask.js` - Objeto que representa una tarea.
+- `src/model/persistence.js` - Manejo de persistencia de datos.
+- `src/view/objectTrash.js` - Vista para elementos eliminados.
+- `src/view/task.js` - Vista para tareas.
+- `src/view/trash.js` - Vista para la papelera.
 - `public/` - Archivos estáticos accesibles públicamente.
 - `tests/` - Pruebas unitarias del proyecto.
 
@@ -47,6 +53,26 @@ pnpm dev
 - `pnpm coverage` - Ejecuta las pruebas y genera cobertura.
 
 ## Uso
+
+1. Abre la aplicación en tu navegador.
+2. Ingresa una tarea en el formulario y presiona "Agregar".
+3. Las tareas se mostrarán en la lista.
+4. Puedes marcar tareas como completadas o eliminarlas.
+5. Las tareas eliminadas van a la papelera, donde puedes restaurarlas o eliminarlas permanentemente.
+
+## Pruebas
+
+Para ejecutar las pruebas:
+
+```bash
+pnpm test
+```
+
+Para ver la cobertura:
+
+```bash
+pnpm coverage
+```
 
 - Escribe una tarea en el campo "Nueva tarea".
 - Presiona "Agregar tarea" para incluirla en la lista.
