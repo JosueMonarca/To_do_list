@@ -1,7 +1,6 @@
 name: Desplegar contenido estático en Pages
 
 on:
-  # OJO: Verifica si tu rama en GitHub se llama 'master' o 'main'. Si se llama 'main', cambia la palabra de abajo.
   push:
     branches: ['master']
   workflow_dispatch:
